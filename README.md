@@ -9,7 +9,7 @@ A flexible Laravel package that handles uploads from links, raw data, or files, 
 
 ## Features
 
-- 🔗 **Multiple Upload Sources**: Upload from URLs, files, or raw data (base64)
+- 🔗 **Multiple Upload Sources**: Upload from files, URLs, or raw data (base64)
 - 🖼️ **Image Manipulation**: Resize, convert, apply filters, and more
 - 🗜️ **Smart Compression**: Automatic image optimization
 - 🎨 **Built-in Filters**: Sepia, blur, brightness adjustments
