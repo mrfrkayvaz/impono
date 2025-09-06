@@ -1,0 +1,59 @@
+{
+  "name": "mrfrkayvaz/impono",
+  "description": "A flexible Laravel package that handles uploads from links, raw data, or files, turning them into a unified upload process.",
+  "keywords": ["laravel", "upload"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ömer Faruk Ayvaz",
+      "email": "mrfrkayvaz@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "illuminate/support": "^12.0",
+    "illuminate/database": "^12.0",
+    "illuminate/http": "^12.0",
+    "spatie/image": "^3.8",
+    "spatie/image-optimizer": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Impono\\": "src/",
+      "Impono\\Tests\\": "tests"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Impono\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Impono\\ImponoServiceProvider"
+      ],
+      "aliases": {
+        "Impono": "Impono\\Facades\\Impono"
+      }
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require-dev": {
+    "orchestra/testbench": "^10.6",
+    "pestphp/pest": "^4.0",
+    "pestphp/pest-plugin-laravel": "^4.0",
+    "phpstan/phpstan": "^1.10.50"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/pest",
+    "analyse": "phpstan analyse --memory-limit=1G --no-progress",
+    "baseline": "./vendor/bin/phpstan analyse --memory-limit=2G --generate-baseline"
+  }
+}
