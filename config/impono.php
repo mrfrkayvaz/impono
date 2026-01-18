@@ -2,9 +2,7 @@
 
 return [
     'temp_path' => 'impono/tmp',
-
-    'location' => 'uploads',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Mime Types Registry

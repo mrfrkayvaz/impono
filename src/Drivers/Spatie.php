@@ -14,7 +14,7 @@ class Spatie {
 
     public function __construct(FileData $fileData) {
         $this->fileData = $fileData;
-        $path = Storage::disk("local")->path($this->fileData->getURL());
+        $path = Storage::disk("local")->path($this->fileData->getPath());
         $this->image = Image::load($path);
     }
 
@@ -53,7 +53,7 @@ class Spatie {
     }
 
     public function save(): void {
-        $path = Storage::disk("local")->path($this->fileData->getURL());
+        $path = Storage::disk("local")->path($this->fileData->getPath());
         $this->image->save($path);
     }
 }

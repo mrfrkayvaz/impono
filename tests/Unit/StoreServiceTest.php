@@ -11,7 +11,7 @@ it('stores file in local disk', function () {
     $file = getAssetFile();
 
     $source = new ImponoFileSource($file);
-    $service = Impono::load($source);
+    Impono::load($source);
     $tempPath = StoreService::getTempFile($source);
 
     expect(Storage::disk('local')->exists($tempPath))->toBeTrue();

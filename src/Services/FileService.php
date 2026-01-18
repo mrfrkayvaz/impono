@@ -26,19 +26,19 @@ class FileService {
     }
 
     public function getWidth(): int {
-        $path = Storage::disk('local')->path($this->fileData->getURL());
+        $path = Storage::disk('local')->path($this->fileData->getPath());
         [$width,] = getimagesize($path);
         return $width;
     }
 
     public function getHeight(): int {
-        $path = Storage::disk('local')->path($this->fileData->getURL());
+        $path = Storage::disk('local')->path($this->fileData->getPath());
         [, $height] = getimagesize($path);
         return $height;
     }
 
     public function getFileSize(): int {
-        $path = Storage::disk('local')->path($this->fileData->getURL());
+        $path = Storage::disk('local')->path($this->fileData->getPath());
         return filesize($path);
     }
 
@@ -52,13 +52,14 @@ class FileService {
             ? pathinfo($target, PATHINFO_EXTENSION)
             : $this->fileData->getExtension();
 
-        $source = $this->fileData->getURL();
+        $source = $this->fileData->getPath();
         $stream = Storage::disk('local')->readStream($source);
 
         $path = $this->fileData->getLocation(). '/' . $filename . '.' . $extension;
         Storage::disk($this->fileData->getDisk())->put($path, $stream, $options);
 
-        $this->fileData->push($filename, $extension, $path);
+        $url = Storage::disk($this->fileData->getDisk())->url($path);
+        $this->fileData->push($filename, $extension, $path, $url);
 
         if (is_resource($stream)) {
             fclose($stream);

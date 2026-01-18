@@ -3,6 +3,7 @@
 namespace Impono\Data;
 
 class FileData {
+    private ?string $path = null;
     private ?string $url = null;
     private bool $is_temp = false;
     private ?string $disk;
@@ -12,7 +13,7 @@ class FileData {
 
     public function __construct() {
         $this->disk = config('filesystems.default', 'local');
-        $this->location = config('impono.location', 'uploads');
+        $this->location = config('filesystem.disks.' . $this->disk . '.root', 'uploads');
         $this->filename = pathinfo($this->url, PATHINFO_FILENAME);
         $this->extension = pathinfo($this->url, PATHINFO_EXTENSION);
     }
@@ -20,6 +21,11 @@ class FileData {
     public function getURL(): ?string
     {
         return $this->url;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
     }
 
     public function getIsTemp(): bool {
@@ -43,7 +49,7 @@ class FileData {
     }
 
     public function setTempFile(string $tempFile): self {
-        $this->url = $tempFile;
+        $this->path = $tempFile;
         $this->is_temp = true;
         return $this;
     }
@@ -71,10 +77,12 @@ class FileData {
     public function push(
         $filename,
         $extension,
+        $path,
         $url
     ): self {
         $this->filename = $filename;
         $this->extension = $extension;
+        $this->path = $path;
         $this->url = $url;
         $this->is_temp = false;
 
