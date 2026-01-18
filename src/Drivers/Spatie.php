@@ -53,7 +53,7 @@ class Spatie {
     }
 
     public function save(): void {
-        $path = Storage::disk($this->fileData->getDisk())->path($this->fileData->getURL());
+        $path = Storage::disk("local")->path($this->fileData->getURL());
         $this->image->save($path);
     }
 }
