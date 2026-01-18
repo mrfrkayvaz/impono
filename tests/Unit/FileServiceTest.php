@@ -1,11 +1,15 @@
 <?php
 
+namespace Impono\Tests;
+
 use Impono\Facades\Impono;
+use Impono\Services\Sources\ImponoFileSource;
 
 it('sends file to storage', function () {
     $file = getAssetFile();
 
-    $file_data = Impono::fromFile($file)
+    $source = new ImponoFileSource($file);
+    $file_data = Impono::load($source)
         ->disk('local')
         ->location('uploads/2025/jan')
         ->push('elephant.png');

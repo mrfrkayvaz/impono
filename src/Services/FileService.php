@@ -3,7 +3,7 @@
 namespace Impono\Services;
 
 use Illuminate\Support\Facades\Storage;
-use Impono\Contracts\UploadHandler;
+use Impono\Contracts\ImponoSource;
 use Impono\Data\FileData;
 use Impono\Traits\ImageManipulations;
 use Impono\Traits\FileManipulations;
@@ -17,12 +17,12 @@ class FileService {
     public array $operations = [];
 
     public function __construct(
-        public UploadHandler $handler,
+        public ImponoSource $source,
         public FileData $fileData
     ) {}
 
-    public function getHandler(): UploadHandler {
-        return $this->handler;
+    public function getSource(): ImponoSource {
+        return $this->source;
     }
 
     public function getWidth(): int {

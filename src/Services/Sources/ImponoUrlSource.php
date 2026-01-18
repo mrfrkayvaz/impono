@@ -1,12 +1,12 @@
 <?php
 
-namespace Impono\Handlers;
+namespace Impono\Services\Sources;
 
-use Impono\Contracts\UploadHandler;
+use Impono\Contracts\ImponoSource;
 use Impono\Data\MimeData;
 use Impono\Support\MimeRegistry;
 
-class UrlHandler implements UploadHandler {
+class ImponoUrlSource implements ImponoSource {
     public function __construct(
         public string $url
     ) {}

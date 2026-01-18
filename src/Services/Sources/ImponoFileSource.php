@@ -1,13 +1,13 @@
 <?php
 
-namespace Impono\Handlers;
+namespace Impono\Services\Sources;
 
 use Illuminate\Http\UploadedFile;
-use Impono\Contracts\UploadHandler;
+use Impono\Contracts\ImponoSource;
 use Impono\Data\MimeData;
 use Impono\Support\MimeRegistry;
 
-class FileHandler implements UploadHandler {
+class ImponoFileSource implements ImponoSource {
     public function __construct(
         public UploadedFile $file
     ) {}

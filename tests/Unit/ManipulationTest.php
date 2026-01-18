@@ -1,13 +1,17 @@
 <?php
 
+namespace Impono\Tests;
+
 use Impono\Facades\Impono;
 use Impono\Enums\Extension;
 use Illuminate\Support\Facades\Storage;
+use Impono\Services\Sources\ImponoFileSource;
 
 it('resizes image', function () {
     $file = getAssetFile();
 
-    $upload = Impono::fromFile($file);
+    $source = new ImponoFileSource($file);
+    $upload = Impono::load($source);
 
     $w1 = $upload->getWidth();
     $h1 = $upload->getHeight();
@@ -29,7 +33,8 @@ it('resizes image', function () {
 it('converts png to webp', function () {
     $file = getAssetFile();
 
-    $upload = Impono::fromFile($file)
+    $source = new ImponoFileSource($file);
+    $upload = Impono::load($source)
         ->convert(Extension::WEBP)
         ->disk('local')
         ->location('uploads/2025/jan')
@@ -44,7 +49,8 @@ it('converts png to webp', function () {
 it('compress webp image', function () {
     $file = getAssetFile();
 
-    $upload = Impono::fromFile($file);
+    $source = new ImponoFileSource($file);
+    $upload = Impono::load($source);
 
     $initial_size = $upload->getFileSize();
 

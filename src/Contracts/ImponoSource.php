@@ -5,7 +5,7 @@ namespace Impono\Contracts;
 
 use Impono\Data\MimeData;
 
-interface UploadHandler
+interface ImponoSource
 {
     public function extension(): ?MimeData;
     public function filename(): string;
