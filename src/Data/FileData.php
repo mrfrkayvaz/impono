@@ -13,9 +13,9 @@ class FileData {
 
     public function __construct() {
         $this->disk = config('filesystems.default', 'local');
-        $this->location = config('filesystem.disks.' . $this->disk . '.root', 'uploads');
         $this->filename = pathinfo($this->url, PATHINFO_FILENAME);
         $this->extension = pathinfo($this->url, PATHINFO_EXTENSION);
+        $this->location = null;
     }
 
     public function getURL(): ?string
