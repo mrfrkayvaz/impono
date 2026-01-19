@@ -14,6 +14,7 @@ class Spatie {
 
     public function __construct(FileData $fileData) {
         $this->fileData = $fileData;
+
         $path = Storage::disk("local")->path($this->fileData->getPath());
         $this->image = Image::load($path);
     }
