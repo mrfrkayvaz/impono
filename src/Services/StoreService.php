@@ -9,10 +9,11 @@ use Impono\Data\FileData;
 class StoreService {
     public static function getFileData(ImponoSource $source): FileData {
         $tempFile = self::getTempFile($source);
-        $fileData = new FileData();
+        $fileData = app(FileData::class);
 
         $fileData
-            ->setExtension($source->extension()->getExtension())
+            ->setMimeData($source->mimeData())
+            ->setExtension($source->mimeData()->getExtension())
             ->setFilename($source->filename())
             ->setTempFile($tempFile);
 
@@ -22,7 +23,7 @@ class StoreService {
     public static function getTempFile(ImponoSource $source): string {
         $stream = $source->content();
         $tempPath = rtrim(config('impono.temp_path', 'impono/tmp'), '/');
-        $extension = $source->extension()->getExtension();
+        $extension = $source->mimeData()->getExtension();
         $filename = $source->filename() . '_' . uniqid() . '.' . $extension;
 
         $path = $tempPath . '/' . $filename;;

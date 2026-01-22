@@ -3,7 +3,6 @@
 namespace Impono;
 
 use Illuminate\Support\ServiceProvider;
-use Impono\Data\MimeData;
 use Impono\Services\ImponoManager;
 use Impono\Support\MimeRegistry;
 
@@ -21,6 +20,13 @@ class ImponoServiceProvider extends ServiceProvider
         $this->app->singleton(ImponoManager::class, function () {
             return new ImponoManager();
         });
+
+        // mime registry
+        $this->app->singleton(MimeRegistry::class, function ($app) {
+            $extensions = $app['config']->get('impono.extensions', []);
+
+            return new MimeRegistry($extensions);
+        });
     }
 
     /**
@@ -33,7 +39,6 @@ class ImponoServiceProvider extends ServiceProvider
         ], 'impono-config');
 
         $this->registerObservers();
-        $this->registerMimes();
     }
 
     /**
@@ -41,15 +46,5 @@ class ImponoServiceProvider extends ServiceProvider
      */
     protected function registerObservers(): void
     {
-    }
-
-    protected function registerMimes(): void {
-        foreach (config('impono.mimes', []) as $mime) {
-            MimeRegistry::register(new MimeData(
-                $mime['extension'],
-                $mime['type'],
-                $mime['mime']
-            ));
-        }
     }
 }

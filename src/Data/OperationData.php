@@ -5,7 +5,7 @@ namespace Impono\Data;
 use Impono\Enums\OperationDriver;
 use Impono\Enums\OperationMethod;
 
-class OperationData {
+readonly class OperationData {
     public function __construct(
         public OperationDriver $driver,
         public OperationMethod $method,

@@ -2,6 +2,8 @@
 
 namespace Impono\Data;
 
+use Impono\Support\MimeRegistry;
+
 class FileData {
     private ?string $path = null;
     private ?string $url = null;
@@ -10,11 +12,15 @@ class FileData {
     private ?string $location;
     private ?string $filename;
     private ?string $extension;
+    private ?MimeData $mimeData;
 
-    public function __construct() {
+    public function __construct(
+        public MimeRegistry $mimeRegistry
+    ) {
         $this->disk = config('filesystems.default', 'local');
-        $this->filename = pathinfo($this->url, PATHINFO_FILENAME);
-        $this->extension = pathinfo($this->url, PATHINFO_EXTENSION);
+        $this->filename = pathinfo($this->path, PATHINFO_FILENAME);
+        $this->extension = pathinfo($this->path, PATHINFO_EXTENSION);
+        $this->mimeData = $this->mimeRegistry->getByExtension($this->extension);
         $this->location = null;
     }
 
@@ -48,6 +54,10 @@ class FileData {
         return $this->extension;
     }
 
+    public function getMimeData(): MimeData {
+        return $this->mimeData;
+    }
+
     public function setTempFile(string $tempFile): self {
         $this->path = $tempFile;
         $this->is_temp = true;
@@ -74,6 +84,11 @@ class FileData {
         return $this;
     }
 
+    public function setMimeData(MimeData $mimeData): self {
+        $this->mimeData = $mimeData;
+        return $this;
+    }
+
     public function push(
         $filename,
         $extension,
@@ -82,6 +97,7 @@ class FileData {
     ): self {
         $this->filename = $filename;
         $this->extension = $extension;
+        $this->mimeData = $this->mimeRegistry->getByExtension($extension);
         $this->path = $path;
         $this->url = $url;
         $this->is_temp = false;

@@ -6,19 +6,25 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Impono\Facades\Impono;
 use Impono\Services\Sources\ImponoFileSource;
 
-it('sends file to storage',
+it('correctly assigns mime data',
     /** @throws BindingResolutionException */
     function () {
     $file = getAssetFile();
 
     $source = ImponoFileSource::make($file);
-    $file_data = Impono::load($source)
+    $upload = Impono::load($source);
+
+    $result = $upload->resize(300, 200)
         ->disk('local')
         ->location('uploads/2025/jan')
         ->push('elephant.png');
 
-    expect($file_data->getPath())
-        ->toBe('uploads/2025/jan/elephant.png')
-        ->and($file_data->getIsTemp())
-        ->toBeFalse();
+    $mimeData = $result->getMimeData();
+
+    expect($mimeData->getExtension())
+        ->toBe('png')
+        ->and($mimeData->getMime())
+        ->toBe('image/png')
+        ->and($mimeData->getType())
+        ->toBe('image');
 });

@@ -2,15 +2,18 @@
 
 namespace Impono\Tests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Impono\Facades\Impono;
 use Impono\Enums\Extension;
 use Illuminate\Support\Facades\Storage;
 use Impono\Services\Sources\ImponoFileSource;
 
-it('resizes image', function () {
+it('resizes image',
+    /** @throws BindingResolutionException */
+    function () {
     $file = getAssetFile();
 
-    $source = new ImponoFileSource($file);
+    $source = ImponoFileSource::make($file);
     $upload = Impono::load($source);
 
     $w1 = $upload->getWidth();
@@ -30,10 +33,12 @@ it('resizes image', function () {
         ->and($h2)->toBe(200);
 });
 
-it('converts png to webp', function () {
+it('converts png to webp',
+    /** @throws BindingResolutionException */
+    function () {
     $file = getAssetFile();
 
-    $source = new ImponoFileSource($file);
+    $source = ImponoFileSource::make($file);
     $upload = Impono::load($source)
         ->convert(Extension::WEBP)
         ->disk('local')
@@ -46,10 +51,12 @@ it('converts png to webp', function () {
     expect($extension)->toBe('webp');
 });
 
-it('compress webp image', function () {
+it('compress webp image',
+    /** @throws BindingResolutionException */
+    function () {
     $file = getAssetFile();
 
-    $source = new ImponoFileSource($file);
+    $source = ImponoFileSource::make($file);
     $upload = Impono::load($source);
 
     $initial_size = $upload->getFileSize();

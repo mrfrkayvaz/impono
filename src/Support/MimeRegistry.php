@@ -2,26 +2,36 @@
 
 namespace Impono\Support;
 
+use Impono\Constants;
 use Impono\Data\MimeData;
 
 class MimeRegistry
 {
-    /** @var array<string, MimeData> */
-    protected static array $types = [];
+    public array $mimes = [];
 
-    public static function register(MimeData $mimeData): void
+    public function __construct(public array $extensions)
     {
-        static::$types[strtolower($mimeData->getExtension())] = $mimeData;
+        collect(Constants::$mimes)->filter(
+            fn ($item) => in_array($item['extension'], $extensions, true)
+        )->each(function ($mime) {
+            $mimeData = new MimeData(
+                $mime['extension'],
+                $mime['type'],
+                $mime['mime']
+            );
+
+            $this->mimes[strtolower($mimeData->getExtension())] = $mimeData;
+        });
     }
 
-    public static function getByExtension(string $extension): ?MimeData
+    public function getByExtension(string $extension): ?MimeData
     {
-        return static::$types[strtolower($extension)] ?? null;
+        return $this->mimes[strtolower($extension)] ?? null;
     }
 
-    public static function getByMime(string $mime): ?MimeData
+    public function getByMime(string $mime): ?MimeData
     {
-        foreach (static::$types as $item) {
+        foreach ($this->mimes as $item) {
             if ($item->getMime() === $mime) {
                 return $item;
             }
@@ -30,8 +40,8 @@ class MimeRegistry
     }
 
     /** @return MimeData[] */
-    public static function all(): array
+    public function all(): array
     {
-        return array_values(static::$types);
+        return array_values($this->mimes);
     }
 }

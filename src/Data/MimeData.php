@@ -2,7 +2,7 @@
 
 namespace Impono\Data;
 
-class MimeData
+readonly class MimeData
 {
     public function __construct(
         protected string $extension,
