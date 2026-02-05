@@ -12,8 +12,7 @@ class StoreService {
         $fileData = app(FileData::class);
 
         $fileData
-            ->setMimeData($source->mimeData())
-            ->setExtension($source->mimeData()->getExtension())
+            ->setExtension($source->extension())
             ->setFilename($source->filename())
             ->setTempFile($tempFile);
 
@@ -23,7 +22,7 @@ class StoreService {
     public static function getTempFile(ImponoSource $source): string {
         $stream = $source->content();
         $tempPath = rtrim(config('impono.temp_path', 'impono/tmp'), '/');
-        $extension = $source->mimeData()->getExtension();
+        $extension = $source->extension();
         $filename = $source->filename() . '_' . uniqid() . '.' . $extension;
 
         $path = $tempPath . '/' . $filename;;

@@ -10,6 +10,7 @@ use Impono\Traits\FileManipulations;
 use Impono\Traits\CompressManipulations;
 
 class FileService {
+    use FileConditionable;
     use FileManipulations;
     use ImageManipulations;
     use CompressManipulations;
@@ -48,9 +49,9 @@ class FileService {
         $filename = $target
             ? pathinfo($target, PATHINFO_FILENAME)
             : $this->fileData->getFilename();
-        $extension = $target
-            ? pathinfo($target, PATHINFO_EXTENSION)
-            : $this->fileData->getExtension();
+
+        $extension = pathinfo($target, PATHINFO_EXTENSION);
+        $extension = $extension ?: $this->fileData->getExtension();
 
         $source = $this->fileData->getPath();
         $stream = Storage::disk('local')->readStream($source);

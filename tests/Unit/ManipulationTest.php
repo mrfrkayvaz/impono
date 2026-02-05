@@ -4,7 +4,6 @@ namespace Impono\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Impono\Facades\Impono;
-use Impono\Enums\Extension;
 use Illuminate\Support\Facades\Storage;
 use Impono\Services\Sources\ImponoFileSource;
 
@@ -40,7 +39,7 @@ it('converts png to webp',
 
     $source = ImponoFileSource::make($file);
     $upload = Impono::load($source)
-        ->convert(Extension::WEBP)
+        ->convert('webp')
         ->disk('local')
         ->location('uploads/2025/jan')
         ->push();
@@ -61,7 +60,7 @@ it('compress webp image',
 
     $initial_size = $upload->getFileSize();
 
-    $upload->convert(Extension::WEBP)
+    $upload->convert('webp')
         ->compress()
         ->disk('local')
         ->location('uploads/2025/jan')

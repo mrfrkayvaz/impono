@@ -4,13 +4,11 @@ namespace Impono\Services\Sources;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Impono\Contracts\ImponoSource;
-use Impono\Data\MimeData;
-use Impono\Support\MimeRegistry;
+use Symfony\Component\Mime\MimeTypes;
 
 class ImponoDataSource implements ImponoSource {
     public function __construct(
         public string $data,
-        public MimeRegistry $mimeRegistry
     ) {
         if (! preg_match('/^data:image\/[a-zA-Z0-9.+-]+;base64,/', $this->head())) {
             throw new \InvalidArgumentException('Only base64 encoded images are allowed.');
@@ -29,20 +27,23 @@ class ImponoDataSource implements ImponoSource {
         return substr($this->data, 0, 100);
     }
 
-    public function mimeData(): ?MimeData
+    public function extension(): string
     {
         if (! preg_match('/^data:([^;]+);base64,/', $this->head(), $matches)) {
             throw new \InvalidArgumentException('Unsupported mime type');
         }
 
         $mime = $matches[1];
-        $mimeData = $this->mimeRegistry->getByMime($mime);
 
-        if (!$mimeData) {
+        $mimeTypes = new MimeTypes();
+        $extensions = $mimeTypes->getExtensions($mime);
+        $extension = $extensions[0] ?? null;
+
+        if (!$extension) {
             throw new \InvalidArgumentException('Unsupported mime type: ' . $mime);
         }
 
-        return $mimeData;
+        return $extension;
     }
 
     public function filename(): string {

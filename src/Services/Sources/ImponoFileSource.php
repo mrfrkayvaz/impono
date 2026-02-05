@@ -5,13 +5,10 @@ namespace Impono\Services\Sources;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\UploadedFile;
 use Impono\Contracts\ImponoSource;
-use Impono\Data\MimeData;
-use Impono\Support\MimeRegistry;
 
 class ImponoFileSource implements ImponoSource {
     public function __construct(
-        public UploadedFile $file,
-        public MimeRegistry $mimeRegistry
+        public UploadedFile $file
     ) {}
 
     /**
@@ -22,16 +19,9 @@ class ImponoFileSource implements ImponoSource {
         return app()->make(static::class, ['file' => $file]);
     }
 
-    public function mimeData(): ?MimeData
+    public function extension(): string
     {
-        $extension = $this->file->getClientOriginalExtension();
-        $mimeData = $this->mimeRegistry->getByExtension($extension);
-
-        if (!$mimeData) {
-            throw new \InvalidArgumentException('Unsupported mime type');
-        }
-
-        return $mimeData;
+        return $this->file->getClientOriginalExtension();
     }
 
     public function filename(): string {

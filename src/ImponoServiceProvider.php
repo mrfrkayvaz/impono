@@ -20,13 +20,6 @@ class ImponoServiceProvider extends ServiceProvider
         $this->app->singleton(ImponoManager::class, function () {
             return new ImponoManager();
         });
-
-        // mime registry
-        $this->app->singleton(MimeRegistry::class, function ($app) {
-            $extensions = $app['config']->get('impono.extensions', []);
-
-            return new MimeRegistry($extensions);
-        });
     }
 
     /**

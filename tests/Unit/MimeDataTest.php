@@ -19,12 +19,6 @@ it('correctly assigns mime data',
         ->location('uploads/2025/jan')
         ->push('elephant.png');
 
-    $mimeData = $result->getMimeData();
-
-    expect($mimeData->getExtension())
-        ->toBe('png')
-        ->and($mimeData->getMime())
-        ->toBe('image/png')
-        ->and($mimeData->getType())
-        ->toBe('image');
+    expect($result->getExtension())
+        ->toBe('png');
 });

@@ -3,18 +3,17 @@
 namespace Impono\Traits;
 
 use Impono\Data\OperationData;
-use Impono\Enums\Extension;
 use Impono\Enums\OperationDriver;
 use Impono\Enums\OperationMethod;
 
 trait ImageManipulations {
-    public function convert(Extension $extension): self {
+    public function convert(string $extension): self {
         $this->operations[] = new OperationData(
             OperationDriver::SPATIE,
             OperationMethod::FORMAT,
-            ['format' => $extension->value]
+            ['format' => $extension]
         );
-        $this->fileData->setExtension($extension->value);
+        $this->fileData->setExtension($extension);
 
         return $this;
     }

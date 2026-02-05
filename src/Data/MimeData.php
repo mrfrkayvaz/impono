@@ -5,23 +5,11 @@ namespace Impono\Data;
 readonly class MimeData
 {
     public function __construct(
-        protected string $extension,
-        protected string $type,
-        protected string $mime
+        protected string $extension
     ) {}
 
     public function getExtension(): string
     {
         return $this->extension;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function getMime(): string
-    {
-        return $this->mime;
     }
 }

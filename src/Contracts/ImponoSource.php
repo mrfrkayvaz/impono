@@ -3,11 +3,9 @@
 
 namespace Impono\Contracts;
 
-use Impono\Data\MimeData;
-
 interface ImponoSource
 {
-    public function mimeData(): ?MimeData;
+    public function extension(): ?string;
     public function filename(): string;
     public function source(): string;
     public function content();
